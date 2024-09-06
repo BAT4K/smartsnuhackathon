@@ -68,10 +68,9 @@
             height: auto;
         }
 
-        .nearby-button {
+        .action-button {
             position: absolute;
             top: 20px;
-            right: 20px;
             padding: 10px 20px;
             background-color: #0078D4;
             color: white;
@@ -79,6 +78,14 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
+        }
+
+        .nearby-button {
+            right: 120px; /* Adjust the right position to make space for the new button */
+        }
+
+        .hospitals-button {
+            right: 20px;
         }
     </style>
 </head>
@@ -91,7 +98,8 @@
     <div class="map-container">
         <div class="map-header">Live Location</div>
         <div id="map"></div>
-        <button class="nearby-button" onclick="showNearbyPoliceStations()">Nearby Police Stations</button>
+        <button class="action-button nearby-button" onclick="showNearbyPoliceStations()">Nearby Police Stations</button>
+        <button class="action-button hospitals-button" onclick="showNearbyHospitals()">Hospitals Near Me</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -145,26 +153,28 @@
                 return;
             }
 
-            // Use Overpass API to find nearby police stations
-            const url = `https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=police](around:2000,${userLocation[0]},${userLocation[1]});out;`;
+            // Create a URL to open Google Maps with a search for nearby police stations
+            const lat = userLocation[0];
+            const lng = userLocation[1];
+            const googleMapsUrl = `https://www.google.com/maps/search/police+station/@${lat},${lng},15z`;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    data.elements.forEach(station => {
-                        const { lat, lon, tags } = station;
-                        const name = tags.name || 'Police Station';
+            // Open Google Maps in a new tab with the search query
+            window.open(googleMapsUrl, '_blank');
+        }
 
-                        // Add a marker for each police station
-                        L.marker([lat, lon]).addTo(map)
-                            .bindPopup(name)
-                            .openPopup();
-                    });
-                })
-                .catch(error => {
-                    alert('Error fetching nearby police stations.');
-                    console.error(error);
-                });
+        function showNearbyHospitals() {
+            if (!userLocation) {
+                alert('Unable to determine your location.');
+                return;
+            }
+
+            // Create a URL to open Google Maps with a search for nearby hospitals
+            const lat = userLocation[0];
+            const lng = userLocation[1];
+            const googleMapsUrl = `https://www.google.com/maps/search/hospitals/@${lat},${lng},15z`;
+
+            // Open Google Maps in a new tab with the search query
+            window.open(googleMapsUrl, '_blank');
         }
 
         // Initialize the map when the page loads
