@@ -6,10 +6,10 @@
     <title>Login / Signup Page</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Using Poppins font for consistency */
-            background-image: url('background.jpg'); /* Set background image */
-            background-size: cover; /* Ensure the background image covers the entire page */
-            background-position: center; /* Center the background image */
+            font-family: 'Poppins', sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,49 +18,50 @@
             transition: background 0.3s ease;
         }
         .container {
-            background-color: rgba(255, 255, 255, 0.95); /* Softer background transparency */
-            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px; /* Reduced padding */
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 350px;
+            max-width: 90%; /* Adjusted for better fit on mobile */
+            max-width: 300px; /* Further reduced max-width */
+            box-sizing: border-box;
             text-align: center;
         }
         h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #0078D4; /* Consistent color */
+            font-size: 20px; /* Reduced font size for a smaller container */
+            margin-bottom: 15px;
+            color: #0078D4;
         }
         input {
-            width: calc(100% - 22px); /* Adjust width to account for padding */
+            width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
+            font-size: 14px;
         }
         input:focus {
-            border-color: #0078D4; /* Highlight border on focus */
+            border-color: #0078D4;
         }
         button {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background-color: #0078D4; /* Consistent button color */
+            padding: 10px;
+            font-size: 14px;
+            background-color: #0078D4;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         button:hover {
             background-color: #005A9E;
-            transform: translateY(-2px); /* Subtle hover lift */
+            transform: translateY(-2px);
         }
         .message {
-            margin-top: 20px;
-            font-size: 14px;
+            margin-top: 15px;
+            font-size: 12px;
         }
         .message a {
             color: #0078D4;
@@ -78,26 +79,26 @@
 <body>
     <div class="container">
         <!-- Login Form -->
-        <div id="loginForm">
+        <form id="loginForm" onsubmit="login(event)">
             <h2>Login</h2>
             <input type="text" id="loginUsername" placeholder="Username" required>
             <input type="password" id="loginPassword" placeholder="Password" required>
-            <button onclick="login()">Login</button>
+            <button type="submit">Login</button>
             <div class="message">
                 <p>Don't have an account? <a onclick="showSignup()">Create an account</a></p>
             </div>
-        </div>
+        </form>
 
         <!-- Signup Form -->
-        <div id="signupForm" class="hidden">
+        <form id="signupForm" class="hidden" onsubmit="signup(event)">
             <h2>Sign Up</h2>
             <input type="text" id="signupUsername" placeholder="Username" required>
             <input type="password" id="signupPassword" placeholder="Password" required>
-            <button onclick="signup()">Sign Up</button>
+            <button type="submit">Sign Up</button>
             <div class="message">
                 <p>Already have an account? <a onclick="showLogin()">Login here</a></p>
             </div>
-        </div>
+        </form>
     </div>
 
     <script>
@@ -114,14 +115,14 @@
         }
 
         // Signup Function - Store user data in LocalStorage
-        function signup() {
+        function signup(event) {
+            event.preventDefault(); // Prevent default form submission
             const username = document.getElementById('signupUsername').value;
             const password = document.getElementById('signupPassword').value;
 
             if (username && password) {
                 const user = { username, password };
                 localStorage.setItem(username, JSON.stringify(user)); // Store user info in LocalStorage
-                alert(`Account created for ${username}`);
                 showLogin(); // Redirect to login form after signup
             } else {
                 alert('Please fill in all fields');
@@ -129,7 +130,8 @@
         }
 
         // Login Function - Verify user data from LocalStorage
-        function login() {
+        function login(event) {
+            event.preventDefault(); // Prevent default form submission
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
 
@@ -139,7 +141,6 @@
                 const user = JSON.parse(storedUser);
 
                 if (user.password === password) {
-                    alert('Login successful!');
                     window.location.href = 'women_safety.html'; // Redirect to women_safety.html on successful login
                 } else {
                     alert('Incorrect password');
