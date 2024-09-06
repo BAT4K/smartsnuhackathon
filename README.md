@@ -2,71 +2,86 @@
 
 ## Overview
 
-The Women Safety App provides users with essential features for personal safety, including emergency contact management, live location sharing, and an SOS button. This app aims to enhance personal safety by providing quick access to emergency services and important contacts.
+The Women Safety App is designed to provide essential safety features including emergency contacts, live location tracking, SOS alerts, and nearby devices detection. The application aims to offer a quick and reliable way for users to access critical safety resources and request help when needed.
 
 ## Features
 
-- **Login / Signup**: Users can create an account or log in to access the app's features.
-- **Emergency Contacts**: Store and manage emergency contact numbers.
-- **Live Location**: Share your real-time location with emergency contacts.
-- **SOS Button**: Quickly trigger an SOS alert and call emergency services.
+- **Login/Signup:** Allows users to create an account or log in to access the app features.
+- **Emergency Contacts:** Access a list of emergency contacts.
+- **Live Location:** Share your real-time location.
+- **SOS Alerts:** Send an SOS alert in case of emergency.
+- **Devices Nearby:** Detect and view nearby devices.
 
-## Getting Started
+## Webpages
 
-To get started with the Women Safety App, follow these steps:
+### Login / Signup Page
 
-1. **Clone the Repository**
+**Description:**
+A page for users to either sign up for a new account or log in to an existing one. Upon successful login, users are redirected to the Women Safety App homepage.
+
+**File:** `login.html`
+
+**Styling:**
+- Font: Poppins
+- Background: Solid color with centered login box
+- Buttons: Green primary button with hover effects
+
+### Women Safety App Homepage
+
+**Description:**
+The main page of the app providing access to emergency contacts, live location, SOS alerts, and device detection features.
+
+**File:** `women_safety.html`
+
+**Styling:**
+- Font: Poppins
+- Background: Image with a semi-transparent content container
+- Buttons: Differently colored buttons for each feature with hover effects
+
+**Button Colors:**
+- Emergency Contacts: Blue
+- Live Location: Orange
+- SOS: Red
+- Devices Nearby: Light Blue
+
+## Setup
+
+1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/yourusername/women-safety-app.git
+    git clone <repository-url>
     ```
 
-2. **Navigate to the Project Directory**
+2. **Navigate to the Project Directory:**
 
     ```bash
-    cd women-safety-app
+    cd <project-directory>
     ```
 
-3. **Open the HTML Files**
+3. **Open the HTML Files:**
 
-    Open `index.html` in your web browser to access the login/signup page. The `index.html` file includes the login and signup forms.
+    Open `login.html` in your web browser to access the login/signup page and `women_safety.html` for the main app page.
 
-4. **View the Women Safety Features**
+## Usage
 
-    After logging in, you can access the Women Safety features by navigating to the appropriate section. The following features are available:
-    
-    - **Emergency Contacts**: Navigate to `index.html` to manage your emergency contacts.
-    - **Live Location**: Navigate to `maps.html` to view your live location.
-    - **SOS Button**: Navigate to `sos.html` to trigger an SOS alert.
+1. **Access the Login/Signup Page:**
 
-## File Structure
+    - Open `login.html` in a web browser.
+    - Use the forms to sign up or log in.
 
-- `index.html`: Login and Signup forms.
-- `maps.html`: Live Location page.
-- `sos.html`: SOS Button page.
-- `background.jpg`: Background image used in the app.
+2. **Access the Women Safety App Homepage:**
 
-## Style Consistency
-
-The app uses the `Poppins` font for a consistent look and feel. The primary color scheme is centered around shades of blue for main buttons, with distinctive colors for different actions:
-
-- **Primary Button**: `#0078D4`
-- **Hover Color**: `#005A9E`
-- **Live Location Button**: `#FF5722`
-- **SOS Button**: `#d9534f`
-
-## JavaScript Functions
-
-- **`login()`**: Handles user login and checks credentials against local storage.
-- **`signup()`**: Registers a new user and stores credentials in local storage.
-- **`showSignup()`**: Switches the view to the signup form.
-- **`showLogin()`**: Switches the view to the login form.
-- **`showWomenSafety()`**: Displays the Women Safety section after successful login.
-
-## Contributing
-
-Contributions are welcome! If you have any suggestions or improvements, please submit a pull request or open an issue.
+    - After a successful login, you will be redirected to `women_safety.html`.
+    - Use the buttons to navigate through the app features.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Feel free to submit pull requests or open issues to contribute to this project. For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Contact
+
+For any questions or inquiries, please contact [hj271@snu.edu.in]
