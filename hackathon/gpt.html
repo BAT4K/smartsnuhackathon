@@ -115,11 +115,10 @@
             color: #555555;
         }
 
-        .button {
+        .button, .live-location-btn, .sos-btn {
             padding: 15px 30px;
             font-size: 18px;
             color: white;
-            background-color: #0078D4;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -128,11 +127,34 @@
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             display: inline-block;
             margin-top: 20px;
+            margin-right: 10px; /* Space between buttons */
+        }
+
+        .button {
+            background-color: #0078D4;
         }
 
         .button:hover {
             background-color: #005A9E;
             box-shadow: 0px 6px 15px rgba(0, 90, 158, 0.3);
+        }
+
+        .live-location-btn {
+            background-color: #FF5722; /* Different color to stand out */
+        }
+
+        .live-location-btn:hover {
+            background-color: #E64A19;
+            box-shadow: 0px 6px 15px rgba(230, 74, 30, 0.3);
+        }
+
+        .sos-btn {
+            background-color: #d9534f; /* SOS button color */
+        }
+
+        .sos-btn:hover {
+            background-color: #c9302c;
+            box-shadow: 0px 6px 15px rgba(217, 83, 79, 0.3);
         }
     </style>
 </head>
@@ -166,6 +188,8 @@
             <h1>Welcome to Women Safety App</h1>
             <p>Your safety is our priority. Quickly access emergency needs and call for help when you need it.</p>
             <a href="index.html" class="button">Emergency Contacts</a>
+            <a href="maps.html" class="live-location-btn">Live Location</a>
+            <a href="sos.html" class="sos-btn">SOS</a> <!-- New SOS button -->
         </div>
     </div>
 
