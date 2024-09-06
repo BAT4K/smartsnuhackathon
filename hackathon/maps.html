@@ -21,9 +21,9 @@
         }
 
         .map-container {
-            width: 80%; /* Adjust width as needed */
+            width: 80%;
             max-width: 600px;
-            height: 80%; /* Adjust height as needed */
+            height: 80%;
             max-height: 500px;
             position: relative;
             background: rgba(255, 255, 255, 0.8);
@@ -43,7 +43,7 @@
         }
 
         #map {
-            height: calc(100% - 50px); /* Adjust height to fit within the container */
+            height: calc(100% - 50px);
             width: 100%;
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
@@ -64,8 +64,21 @@
         }
 
         .back-button img {
-            width: 50px; /* Adjust size as needed */
+            width: 50px;
             height: auto;
+        }
+
+        .nearby-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -78,14 +91,17 @@
     <div class="map-container">
         <div class="map-header">Live Location</div>
         <div id="map"></div>
+        <button class="nearby-button" onclick="showNearbyPoliceStations()">Nearby Police Stations</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialize and add the map
+        let map;
+        let userLocation;
+
         function initMap() {
             // Create a map centered at an initial location
-            const map = L.map('map').setView([0, 0], 15); // Default center
+            map = L.map('map').setView([0, 0], 15);
 
             // Add OpenStreetMap tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -98,11 +114,11 @@
                     (position) => {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
-                        const pos = [lat, lng];
+                        userLocation = [lat, lng];
 
                         // Update map center and add a marker
-                        map.setView(pos, 15);
-                        L.marker(pos).addTo(map)
+                        map.setView(userLocation, 15);
+                        L.marker(userLocation).addTo(map)
                             .bindPopup('You are here')
                             .openPopup();
                     },
@@ -116,12 +132,39 @@
             }
         }
 
-        // Handle geolocation errors
         function handleLocationError(browserHasGeolocation) {
             alert(browserHasGeolocation
                 ? "Error: The Geolocation service failed."
                 : "Error: Your browser doesn’t support geolocation."
             );
+        }
+
+        function showNearbyPoliceStations() {
+            if (!userLocation) {
+                alert('Unable to determine your location.');
+                return;
+            }
+
+            // Use Overpass API to find nearby police stations
+            const url = `https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=police](around:2000,${userLocation[0]},${userLocation[1]});out;`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.elements.forEach(station => {
+                        const { lat, lon, tags } = station;
+                        const name = tags.name || 'Police Station';
+
+                        // Add a marker for each police station
+                        L.marker([lat, lon]).addTo(map)
+                            .bindPopup(name)
+                            .openPopup();
+                    });
+                })
+                .catch(error => {
+                    alert('Error fetching nearby police stations.');
+                    console.error(error);
+                });
         }
 
         // Initialize the map when the page loads
