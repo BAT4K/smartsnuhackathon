@@ -22,16 +22,17 @@
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 300px; /* Further reduced width */
+            width: 90%;
+            position: relative;
         }
 
         #sosButton {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 12px 20px;
+            font-size: 16px;
             color: white;
             background-color: #d9534f;
             border: none;
@@ -47,28 +48,27 @@
         }
 
         #settings {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .input-container {
             display: flex;
-            justify-content: space-between;
-            gap: 10px; /* Adjust gap as needed */
-            margin-bottom: 10px; /* Space below the inputs */
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         input[type="text"] {
-            flex: 1;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box; /* Ensure padding is included in width */
+            font-size: 14px;
+            box-sizing: border-box;
         }
 
         button#saveNumbers {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 16px;
+            font-size: 14px;
             color: white;
             background-color: #0078D4;
             border: none;
@@ -84,13 +84,32 @@
 
         h3 {
             color: #0078D4;
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 10px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 30px;
+            height: 30px;
+            background: url('back-button.png') no-repeat center center;
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: url('back-button.png') no-repeat center center;
+            background-size: cover;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="back-button" onclick="window.history.back()"></button>
         <button id="sosButton" onclick="sendSOS()">SOS</button>
 
         <div id="settings">
@@ -104,7 +123,6 @@
     </div>
 
     <script>
-        // Initialize the settings with stored values
         function loadSettings() {
             const emergencyNumber = localStorage.getItem('emergencyNumber');
             const smsNumbers = localStorage.getItem('smsNumbers');
@@ -118,7 +136,6 @@
             }
         }
 
-        // Save numbers to LocalStorage
         function saveNumbers() {
             const emergencyNumber = document.getElementById('emergencyNumber').value.trim();
             const smsNumbers = document.getElementById('smsNumbers').value.trim();
@@ -132,7 +149,6 @@
             }
         }
 
-        // Send SOS with saved numbers
         function sendSOS() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -141,22 +157,17 @@
                         const lng = position.coords.longitude;
                         const location = `https://www.google.com/maps?q=${lat},${lng}`;
 
-                        // Retrieve saved numbers from LocalStorage
                         const emergencyNumber = localStorage.getItem('emergencyNumber');
                         const smsNumbers = localStorage.getItem('smsNumbers');
 
                         if (emergencyNumber) {
-                            // Initiate call
                             window.location.href = `tel:${emergencyNumber}`;
                         } else {
                             alert('Emergency number not set.');
                         }
 
                         if (smsNumbers) {
-                            // Create SMS content
                             const smsContent = `Emergency! I'm at ${location}`;
-
-                            // Send SMS (attempt)
                             smsNumbers.split(',').forEach(number => {
                                 window.location.href = `sms:${number.trim()}?body=${encodeURIComponent(smsContent)}`;
                             });
@@ -173,7 +184,6 @@
             }
         }
 
-        // Load settings when the page loads
         document.addEventListener('DOMContentLoaded', loadSettings);
     </script>
 </body>
