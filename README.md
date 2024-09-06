@@ -1,99 +1,72 @@
-# smartsnuhackathon
+#smartsnuhackathon
 
 ## Overview
 
-The Women Safety App is designed to offer quick access to emergency contacts and resources for women. The application provides a simple login/signup interface and a dedicated safety page that allows users to store and manage emergency phone numbers, as well as access important safety information.
+The Women Safety App provides users with essential features for personal safety, including emergency contact management, live location sharing, and an SOS button. This app aims to enhance personal safety by providing quick access to emergency services and important contacts.
 
 ## Features
 
-- **User Authentication**: Secure login and signup functionality.
-- **Emergency Contacts**: Save and manage emergency phone numbers.
-- **Call Functionality**: Quickly dial saved emergency numbers.
-- **Women Safety Information**: Access essential safety information and resources.
+- **Login / Signup**: Users can create an account or log in to access the app's features.
+- **Emergency Contacts**: Store and manage emergency contact numbers.
+- **Live Location**: Share your real-time location with emergency contacts.
+- **SOS Button**: Quickly trigger an SOS alert and call emergency services.
 
-## Technologies Used
-
-- HTML
-- CSS
-- JavaScript
-- LocalStorage for data persistence
-
-## Installation
+## Getting Started
 
 To get started with the Women Safety App, follow these steps:
 
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/women-safety-app.git
+    git clone https://github.com/yourusername/women-safety-app.git
+    ```
+
+2. **Navigate to the Project Directory**
+
+    ```bash
     cd women-safety-app
     ```
 
-2. **Set Up the Project**
+3. **Open the HTML Files**
 
-    - No additional setup is required. Simply open `index.html` in your web browser to start using the app.
+    Open `index.html` in your web browser to access the login/signup page. The `index.html` file includes the login and signup forms.
 
-## Usage
+4. **View the Women Safety Features**
 
-1. **Login / Signup**
+    After logging in, you can access the Women Safety features by navigating to the appropriate section. The following features are available:
+    
+    - **Emergency Contacts**: Navigate to `index.html` to manage your emergency contacts.
+    - **Live Location**: Navigate to `maps.html` to view your live location.
+    - **SOS Button**: Navigate to `sos.html` to trigger an SOS alert.
 
-    - Open `index.html` in your web browser.
-    - Use the provided forms to log in or create a new account.
+## File Structure
 
-2. **Manage Emergency Contacts**
+- `index.html`: Login and Signup forms.
+- `maps.html`: Live Location page.
+- `sos.html`: SOS Button page.
+- `background.jpg`: Background image used in the app.
 
-    - After logging in, you will be directed to the Women Safety page.
-    - Enter and save emergency contacts.
-    - Use the call functionality to quickly dial saved numbers.
+## Style Consistency
 
-3. **View Safety Information**
+The app uses the `Poppins` font for a consistent look and feel. The primary color scheme is centered around shades of blue for main buttons, with distinctive colors for different actions:
 
-    - The Women Safety page provides essential safety information and links to emergency resources.
+- **Primary Button**: `#0078D4`
+- **Hover Color**: `#005A9E`
+- **Live Location Button**: `#FF5722`
+- **SOS Button**: `#d9534f`
+
+## JavaScript Functions
+
+- **`login()`**: Handles user login and checks credentials against local storage.
+- **`signup()`**: Registers a new user and stores credentials in local storage.
+- **`showSignup()`**: Switches the view to the signup form.
+- **`showLogin()`**: Switches the view to the login form.
+- **`showWomenSafety()`**: Displays the Women Safety section after successful login.
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions or improvements, please follow these steps:
-
-1. **Fork the Repository**
-
-    - Click the "Fork" button on GitHub to create a copy of the repository under your account.
-
-2. **Create a Branch**
-
-    - Create a new branch for your changes.
-
-    ```bash
-    git checkout -b feature/your-feature
-    ```
-
-3. **Make Your Changes**
-
-    - Implement your changes or new features.
-
-4. **Commit Your Changes**
-
-    ```bash
-    git add .
-    git commit -m "Add a descriptive commit message"
-    ```
-
-5. **Push to Your Fork**
-
-    ```bash
-    git push origin feature/your-feature
-    ```
-
-6. **Create a Pull Request**
-
-    - Open a pull request on the original repository to submit your changes.
+Contributions are welcome! If you have any suggestions or improvements, please submit a pull request or open an issue.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-For any inquiries or support, please reach out to:
-
-- **Email**: hj271@snu.edu.in
-- **GitHub**: [BAT4K](https://github.com/BAT4K/smartsnuhackathon)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
