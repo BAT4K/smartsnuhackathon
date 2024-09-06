@@ -1,87 +1,74 @@
-#smartsnuhackathon
+# Women Safety App
 
 ## Overview
 
-The Women Safety App is designed to provide essential safety features including emergency contacts, live location tracking, SOS alerts, and nearby devices detection. The application aims to offer a quick and reliable way for users to access critical safety resources and request help when needed.
+The Women Safety App is designed to provide safety features for women, including emergency contact access, live location sharing, SOS alerts, device proximity detection, siren activation, and safe route guidance. The application consists of two primary pages:
+
+1. **Login Page** (`login.html`)
+2. **Women Safety Page** (`women_safety.html`)
 
 ## Features
 
-- **Login/Signup:** Allows users to create an account or log in to access the app features.
-- **Emergency Contacts:** Access a list of emergency contacts.
-- **Live Location:** Share your real-time location.
-- **SOS Alerts:** Send an SOS alert in case of emergency.
-- **Devices Nearby:** Detect and view nearby devices.
+### 1. Login Page (`login.html`)
 
-## Webpages
+**Purpose**: Allows users to log in or sign up for the Women Safety App.
 
-### Login / Signup Page
+**Features**:
+- **Login Form**: Users can log in using their username and password.
+- **Signup Form**: New users can create an account.
+- **Local Storage**: User credentials are stored in `localStorage` for authentication.
+- **Redirection**: Upon successful login, users are redirected to the Women Safety Page.
 
-**Description:**
-A page for users to either sign up for a new account or log in to an existing one. Upon successful login, users are redirected to the Women Safety App homepage.
+**Usage**:
+- **Login**: Enter a registered username and password, then click "Login".
+- **Sign Up**: Click on "Create an account" to switch to the signup form, enter details, and click "Sign Up". After successful signup, you will be redirected to the login form.
 
-**File:** `login.html`
+**Code**: 
+- [login.html](login.html)
 
-**Styling:**
-- Font: Poppins
-- Background: Solid color with centered login box
-- Buttons: Green primary button with hover effects
+### 2. Women Safety Page (`women_safety.html`)
 
-### Women Safety App Homepage
+**Purpose**: Provides safety features and information to logged-in users.
 
-**Description:**
-The main page of the app providing access to emergency contacts, live location, SOS alerts, and device detection features.
+**Features**:
+- **Welcome Message**: Personalized greeting using the logged-in username.
+- **Map Integration**: Displays the user's current location on a map.
+- **Buttons**: Access various features:
+  - **Emergency Contacts**: Link to emergency contact management.
+  - **Live Location**: Share your live location.
+  - **SOS**: Trigger an SOS alert.
+  - **Devices Nearby**: Detect nearby devices.
+  - **Siren**: Activate a siren.
+  - **Safest Route**: Find and display the safest route.
 
-**File:** `women_safety.html`
+**Usage**:
+- **Menu**: Use the hamburger menu to navigate between features and log out.
+- **Map**: The map shows your current location. It uses Leaflet for map rendering and updates.
 
-**Styling:**
-- Font: Poppins
-- Background: Image with a semi-transparent content container
-- Buttons: Differently colored buttons for each feature with hover effects
-
-**Button Colors:**
-- Emergency Contacts: Blue
-- Live Location: Orange
-- SOS: Red
-- Devices Nearby: Light Blue
+**Code**: 
+- [women_safety.html](women_safety.html)
 
 ## Setup
 
-1. **Clone the Repository:**
+1. **Ensure you have the following files in your project directory**:
+   - `login.html`
+   - `women_safety.html`
+   - Any required background images or external CSS/JS files.
 
-    ```bash
-    git clone <repository-url>
-    ```
+2. **Local Storage**: The application uses `localStorage` to manage user authentication. Make sure your browser supports and has `localStorage` enabled.
 
-2. **Navigate to the Project Directory:**
+3. **Dependencies**:
+   - **Leaflet**: Used for map functionality in `women_safety.html`. The library is included via CDN.
 
-    ```bash
-    cd <project-directory>
-    ```
+4. **Testing**:
+   - Open `login.html` in your browser to test the login and signup functionality.
+   - After logging in, `women_safety.html` should display and provide the features as described.
 
-3. **Open the HTML Files:**
+## Development
 
-    Open `login.html` in your web browser to access the login/signup page and `women_safety.html` for the main app page.
-
-## Usage
-
-1. **Access the Login/Signup Page:**
-
-    - Open `login.html` in a web browser.
-    - Use the forms to sign up or log in.
-
-2. **Access the Women Safety App Homepage:**
-
-    - After a successful login, you will be redirected to `women_safety.html`.
-    - Use the buttons to navigate through the app features.
+- **HTML/CSS**: Modify `login.html` and `women_safety.html` for design changes.
+- **JavaScript**: Update `login.html` for authentication logic and `women_safety.html` for map integration and feature buttons.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Feel free to submit pull requests or open issues to contribute to this project. For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Contact
-
-For any questions or inquiries, please contact [hj271@snu.edu.in]
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
