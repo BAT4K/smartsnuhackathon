@@ -11,19 +11,28 @@
             background-size: cover;
             background-position: center;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
             padding: 20px;
-            color: #555555;
+        }
+
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            width: 100%;
+            max-width: 320px; /* Make container smaller for small screens */
         }
 
         .back-button-container {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 10px;
         }
 
         .back-button {
@@ -35,61 +44,66 @@
         }
 
         .back-button img {
-            width: 50px;
+            width: 30px; /* Smaller size for mobile */
             height: auto;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 22px; /* Adjust font size for mobile */
             color: #0078D4;
-            margin-bottom: 20px;
+            margin: 0 0 15px 0;
+            text-align: center;
         }
 
         #scanButton {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 16px;
             color: white;
             background-color: #0078D4;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Consistent transitions */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
         }
 
         #scanButton:hover {
             background-color: #005A9E;
-            transform: translateY(-2px); /* Consistent hover effect */
+            transform: translateY(-2px);
         }
 
         #deviceList {
-            margin-top: 20px;
             list-style-type: none;
             padding: 0;
+            margin: 0;
             width: 100%;
-            max-width: 600px; /* Consistent width */
         }
 
         #deviceList li {
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 8px;
             margin: 5px 0;
-            background-color: rgba(255, 255, 255, 0.9); /* Softer background */
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            font-size: 14px; /* Adjust font size for mobile */
         }
     </style>
 </head>
 <body>
-    <div class="back-button-container">
-        <button class="back-button" onclick="window.history.back()">
-            <img src="back-button.png" alt="Back">
-        </button>
+    <div class="container">
+        <div class="back-button-container">
+            <button class="back-button" onclick="window.history.back()">
+                <img src="back-button.png" alt="Back">
+            </button>
+        </div>
+        <h1>Bluetooth Devices</h1>
+        <button id="scanButton" onclick="startScanning()">Start Scanning</button>
+        <ul id="deviceList"></ul>
     </div>
-    
-    <h1>Bluetooth Devices</h1>
-    <button id="scanButton" onclick="startScanning()">Start Scanning</button>
-    <ul id="deviceList"></ul>
 
     <script>
         let devicesInRange = {}; // Track devices and their timestamps
