@@ -1,32 +1,53 @@
-# Janani: Women's Safety Web App
+# जननी (Janani) - Women's Safety Web App
 
-**Janani** is a web application designed to empower women by providing essential safety features in times of need. 
+जननी (Janani) is a web application designed to enhance women's safety by providing critical features such as live location tracking, SOS alerts, and emergency contacts. This app is aimed at helping individuals in distress by offering quick access to safety measures, including siren alerts, nearby devices detection, and identifying the safest route to safety.
 
-### Features
+## Features
 
-* **Login/Signup:** Create an account or log in for secure access. (Uses LocalStorage)
-* **Home Page:** The central hub for all safety features:
-    * **Live Location Map:** Displays your real-time location on an interactive map. (Requires Map API)
-    * **Emergency Contacts:** Quickly access and contact pre-defined emergency contacts.
-    * **Live Location Sharing:** Share your live location with selected contacts for immediate assistance.
-    * **SOS Button:** Trigger an SOS alert notifying emergency contacts with your current location.
-    * **Devices Nearby:** Detect nearby devices for additional safety measures.
-    * **Siren Button:** Activate a loud siren to draw attention in an emergency.
-    * **Safest Route Button:** Find escape routes based on your current location.
-    * **Logout:** Easily log out of the application through the hamburger menu.
+### 1. Login/Signup Page
+- Allows users to create an account or log in using a simple form.
+- User credentials are stored in the browser's LocalStorage.
+- On successful login, users are redirected to the home page.
 
-### Technologies Used
+### 2. Home Page
+The home page serves as the central hub for safety features, offering:
 
-* HTML5
-* CSS3
-* JavaScript (Core web development)
-* LocalStorage (User login/signup management)
-* Map API (Live location tracking)
+- *Live Location Map*: Displays the user's current location on an interactive map.
+- *Emergency Contacts*: A button to quickly access emergency contacts and call them.
+- *Live Location Sharing*: Share your live location with designated contacts.
+- *SOS Button*: Instantly sends an SOS alert with your current location to your emergency contacts.
+- *Nearby Devices*: Detect nearby devices for potential help or support.
+- *Siren Activation*: Activates a loud siren to attract attention during emergencies.
+- *Safest Route*: Suggests the safest route to reach your destination.
+- *Hamburger Menu*: Provides access to a logout button for secure session termination.
 
-### How to Run Locally
+### 3. Logout Functionality
+- The hamburger menu includes a "Log Out" button to allow users to securely log out of the app.
 
-1.  **Clone the repository:**
+## Technologies Used
+- *HTML5, CSS3, JavaScript*: Core web technologies for the app interface and functionality.
+- *LocalStorage*: Stores user login/signup data locally for easy access.
+- *Map API*: Displays the live location of the user on a map.
 
-```bash
-git clone [https://github.com/BAT4K/smartsnuhackathon.git](https://github.com/BAT4K/smartsnuhackathon.git)
-cd smartsnuhackathon/janani
+## How to Run Locally
+
+1. Clone the repository:
+
+    bash
+    git clone https://github.com/BAT4K/smartsnuhackathon.git
+    cd smartsnuhackathon/janani
+    
+
+2. Open the index.html file in your preferred browser to launch the app.
+
+> *Note*: Ensure you have an active internet connection to enable live location tracking features.
+
+## Future Enhancements
+
+- *Real-time Database Integration*: Replace LocalStorage with a more secure and scalable backend database.
+- *Push Notifications*: Implement notifications to alert users or contacts in real-time during emergencies.
+- *Improved Security*: Implement features like OTP verification for added security during user login/signup.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
