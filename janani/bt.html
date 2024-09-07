@@ -109,6 +109,24 @@
         let devicesInRange = {}; // Track devices and their timestamps
         let scanInterval;
 
+        // Request notification permission
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission !== 'granted') {
+                        alert('Notification permission denied.');
+                    }
+                });
+            }
+        }
+
+        // Send a notification if no devices are found
+        function sendNoDevicesNotification() {
+            if (Notification.permission === 'granted') {
+                new Notification('No devices nearby');
+            }
+        }
+
         // Function to start scanning for Bluetooth devices
         async function startScanning() {
             if (!navigator.bluetooth) {
@@ -165,6 +183,10 @@
             const deviceList = document.getElementById('deviceList');
             deviceList.innerHTML = '';
 
+            if (Object.keys(devicesInRange).length === 0) {
+                sendNoDevicesNotification();
+            }
+
             for (const [id, device] of Object.entries(devicesInRange)) {
                 const elapsedTime = Math.floor((new Date() - device.timestamp) / 1000); // in seconds
                 const li = document.createElement('li');
@@ -179,6 +201,9 @@
                 clearInterval(scanInterval);
             }
         });
+
+        // Request notification permission on page load
+        window.addEventListener('load', requestNotificationPermission);
     </script>
 </body>
 </html>
