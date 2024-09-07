@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Center</title>
+
+    <!-- Importing Google Fonts for a more modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('background.jpg') no-repeat center center fixed; /* Placeholder for background image */
+            background-size: cover;
+            color: #333;
+            padding: 10px; /* Reduced padding for smaller screens */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95); /* Softer background transparency */
+            padding: 20px; /* Reduced padding */
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Softer, larger shadow for modern look */
+            width: 100%;
+            max-width: 350px; /* Reduced max-width to fit smaller screens */
+            position: relative; /* Position relative to place back button inside */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px; /* Smaller button size */
+            height: 30px;
+            background: url('back-button.png') no-repeat center center;
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px; /* Reduced margin */
+            font-size: 22px; /* Smaller font size */
+            font-weight: 600;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Reduced gap */
+            margin-bottom: 20px; /* Reduced margin */
+        }
+
+        label {
+            font-size: 12px; /* Reduced font size */
+            font-weight: 500;
+            color: #555;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 14px; /* Reduced font size */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff; /* Focus effect */
+        }
+
+        button {
+            padding: 10px;
+            font-size: 14px; /* Reduced font size */
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            margin-top: 15px;
+            font-size: 18px; /* Reduced font size */
+            text-align: center;
+            color: #444;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        li {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        .delete-btn {
+            background-color: #ff6666;
+            color: white;
+            border: none;
+            padding: 5px 8px; /* Reduced padding */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #e63946;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.history.back()"></button> <!-- Back button inside container -->
+        <h1>Call Center</h1>
+        <form onsubmit="event.preventDefault(); dialNumber();">
+            <label for="contactName">Contact Name</label>
+            <input type="text" id="contactName" placeholder="Enter contact name">
+            
+            <label for="phoneNumber">Mobile Number</label>
+            <input type="text" id="phoneNumber" placeholder="Enter mobile number">
+            
+            <button type="button" onclick="dialNumber()">Call</button>
+            <button type="button" onclick="saveNumber()">Save Number</button>
+        </form>
+
+        <h2>Saved Numbers</h2>
+        <ul id="savedNumbersList">
+            <!-- Saved numbers will be loaded here -->
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadSavedNumbers();
+
+            function loadSavedNumbers() {
+                const savedNumbers = JSON.parse(localStorage.getItem('savedNumbers')) || [];
+                const savedNumbersList = document.getElementById('savedNumbersList');
+                savedNumbersList.innerHTML = ''; 
+
+                savedNumbers.forEach(({ name, number }, index) => {
+                    addNumberToList(name, number, index);
+                });
+            }
+
+            window.dialNumber = function() {
+                const number = document.getElementById("phoneNumber").value;
+                if (number) {
+                    window.location.href = `tel:${number}`;
+                } else {
+                    alert("Please enter a valid phone number.");
+                }
+            };
+
+            window.saveNumber = function() {
+                const number = document.getElementById("phoneNumber").value;
+                const name = document.getElementById("contactName").value;
+
+                if (number && name) {
+                    const savedNumbers = JSON.parse(localStorage.getItem('savedNumbers')) || [];
+                    savedNumbers.push({ name, number });
+                    localStorage.setItem('savedNumbers', JSON.stringify(savedNumbers));
+
+                    addNumberToList(name, number, savedNumbers.length - 1);
+
+                    document.getElementById("phoneNumber").value = "";
+                    document.getElementById("contactName").value = "";
+                } else {
+                    alert("Please enter both a name and a phone number.");
+                }
+            };
+
+            function addNumberToList(name, number, index) {
+                const savedNumbersList = document.getElementById("savedNumbersList");
+                const newListItem = document.createElement("li");
+                const newLink = document.createElement("a");
+                const deleteButton = document.createElement("button");
+
+                newLink.href = `tel:${number}`;
+                newLink.textContent = `${name} (${number})`;
+
+                deleteButton.textContent = "Delete";
+                deleteButton.className = "delete-btn";
+                deleteButton.onclick = function() {
+                    deleteNumber(index);
+                };
+
+                newListItem.appendChild(newLink);
+                newListItem.appendChild(deleteButton);
+                savedNumbersList.appendChild(newListItem);
+            }
+
+            function deleteNumber(index) {
+                let savedNumbers = JSON.parse(localStorage.getItem('savedNumbers')) || [];
+                savedNumbers.splice(index, 1); 
+                localStorage.setItem('savedNumbers', JSON.stringify(savedNumbers));
+
+                loadSavedNumbers();
+            }
+        });
+    </script>
+</body>
+</html>

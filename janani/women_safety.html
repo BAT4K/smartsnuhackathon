@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety App</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background 0.3s ease;
+            overflow: hidden;
+        }
+
+        .women-safety-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 280px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            position: relative;
+        }
+
+        .women-safety-container.active {
+            opacity: 1;
+        }
+
+        .women-safety h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #0078D4;
+            white-space: normal;
+        }
+
+        .women-safety p {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: #555555;
+        }
+
+        .button, .live-location-btn, .sos-btn, .devices-btn, .siren-btn, .safe-route-btn {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0px 4px 8px rgba(0, 120, 212, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .button {
+            background-color: #0078D4;
+        }
+
+        .button:hover {
+            background-color: #005A9E;
+            box-shadow: 0px 6px 12px rgba(0, 90, 158, 0.3);
+        }
+
+        .live-location-btn {
+            background-color: #FF5722;
+        }
+
+        .live-location-btn:hover {
+            background-color: #E64A19;
+            box-shadow: 0px 6px 12px rgba(230, 74, 30, 0.3);
+        }
+
+        .sos-btn {
+            background-color: #d9534f;
+        }
+
+        .sos-btn:hover {
+            background-color: #c9302c;
+            box-shadow: 0px 6px 12px rgba(217, 83, 79, 0.3);
+        }
+
+        .devices-btn {
+            background-color: #5bc0de;
+        }
+
+        .devices-btn:hover {
+            background-color: #31b0d5;
+            box-shadow: 0px 6px 12px rgba(91, 192, 222, 0.3);
+        }
+
+        .siren-btn {
+            background-color: #f0ad4e;
+        }
+
+        .siren-btn:hover {
+            background-color: #ec971f;
+            box-shadow: 0px 6px 12px rgba(240, 173, 78, 0.3);
+        }
+
+        .safe-route-btn {
+            background-color: #4CAF50;
+        }
+
+        .safe-route-btn:hover {
+            background-color: #388E3C;
+            box-shadow: 0px 6px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 200px; /* Fixed height for the map */
+            border-radius: 8px;
+            margin-bottom: 15px; /* Space between map and buttons */
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .menu-button {
+            width: 30px;
+            height: 21px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #0078D4;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-button div {
+            background-color: white;
+            height: 3px;
+            border-radius: 3px;
+        }
+
+        .menu-content {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 1);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            height: 100%;
+            z-index: 1000;
+            text-align: left;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .menu-content.active {
+            display: block;
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .menu-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-content .close-btn:hover {
+            background-color: #d9534f;
+        }
+
+        .menu-content h2 {
+            font-size: 18px;
+            color: #0078D4;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .menu-content a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            background-color: #0078D4;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .menu-content a:hover {
+            background-color: #005A9E;
+        }
+
+        .menu-content .logout {
+            color: #d9534f;
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+            padding-top: 10px;
+            text-align: center;
+            background-color: #f2dede;
+        }
+
+        .menu-content .logout:hover {
+            background-color: #f5b7b1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button -->
+    <div class="menu">
+        <div class="menu-button" id="menuIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Menu -->
+    <div class="menu-content" id="menuContent">
+        <button class="close-btn" id="closeMenu">&times;</button>
+        <h2>Welcome <span id="username">User</span></h2>
+        <a href="emergency.html" class="button">Emergency Contacts</a>
+        <a href="maps.html" class="live-location-btn">Live Location</a>
+        <a href="sos.html" class="sos-btn">SOS</a>
+        <a href="bt.html" class="devices-btn">Devices Nearby</a>
+        <a href="siren.html" class="siren-btn">Siren</a>
+        <a href="path.html" class="safe-route-btn">Safest Route</a>
+        <a href="index.html" class="logout">Log Out</a>
+    </div>
+
+    <div class="women-safety-container active" id="womenSafetyContainer">
+        <div class="women-safety">
+            <h1>Welcome to Women Safety App</h1>
+            <p>Your safety is our priority.<br> Quickly access emergency needs and call for help.</p>
+        </div>
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <!-- Buttons -->
+        <a href="emergency.html" class="button">Emergency Contacts</a>
+        <a href="maps.html" class="live-location-btn">Live Location</a>
+        <a href="sos.html" class="sos-btn">SOS</a>
+        <a href="bt.html" class="devices-btn">Devices Nearby</a>
+        <a href="siren.html" class="siren-btn">Siren</a>
+        <a href="path.html" class="safe-route-btn">Safest Route</a>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.getElementById('menuIcon').addEventListener('click', function() {
+            document.getElementById('menuContent').classList.toggle('active');
+        });
+
+        document.getElementById('closeMenu').addEventListener('click', function() {
+            document.getElementById('menuContent').classList.remove('active');
+        });
+
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        function onLocationFound(e) {
+            var lat = e.coords.latitude;
+            var lng = e.coords.longitude;
+
+            map.setView([lat, lng], 13);
+
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('You are here.')
+                .openPopup();
+        }
+
+        function onLocationError(e) {
+            alert("Unable to retrieve your location.");
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(onLocationFound, onLocationError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+</body>
+</html>

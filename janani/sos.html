@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS Button</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 300px; /* Further reduced width */
+            width: 90%;
+            position: relative;
+        }
+
+        #sosButton {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #sosButton:hover {
+            background-color: #c9302c;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #settings {
+            margin-top: 15px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button#saveNumbers {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: white;
+            background-color: #0078D4;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button#saveNumbers:hover {
+            background-color: #005A9E;
+        }
+
+        h3 {
+            color: #0078D4;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 30px;
+            height: 30px;
+            background: url('back-button.png') no-repeat center center;
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: url('back-button.png') no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.history.back()"></button>
+        <button id="sosButton" onclick="sendSOS()">SOS</button>
+
+        <div id="settings">
+            <h3>Emergency Numbers</h3>
+            <div class="input-container">
+                <input type="text" id="emergencyNumber" placeholder="Emergency Number">
+                <input type="text" id="smsNumbers" placeholder="Comma-separated SMS Numbers">
+            </div>
+            <button id="saveNumbers" onclick="saveNumbers()">Save Numbers</button>
+        </div>
+    </div>
+
+    <script>
+        function loadSettings() {
+            const emergencyNumber = localStorage.getItem('emergencyNumber');
+            const smsNumbers = localStorage.getItem('smsNumbers');
+
+            if (emergencyNumber) {
+                document.getElementById('emergencyNumber').value = emergencyNumber;
+            }
+
+            if (smsNumbers) {
+                document.getElementById('smsNumbers').value = smsNumbers;
+            }
+        }
+
+        function saveNumbers() {
+            const emergencyNumber = document.getElementById('emergencyNumber').value.trim();
+            const smsNumbers = document.getElementById('smsNumbers').value.trim();
+
+            if (emergencyNumber && smsNumbers) {
+                localStorage.setItem('emergencyNumber', emergencyNumber);
+                localStorage.setItem('smsNumbers', smsNumbers);
+                alert('Emergency numbers saved successfully!');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function sendSOS() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const location = `https://www.google.com/maps?q=${lat},${lng}`;
+
+                        const emergencyNumber = localStorage.getItem('emergencyNumber');
+                        const smsNumbers = localStorage.getItem('smsNumbers');
+
+                        if (emergencyNumber) {
+                            window.location.href = `tel:${emergencyNumber}`;
+                        } else {
+                            alert('Emergency number not set.');
+                        }
+
+                        if (smsNumbers) {
+                            const smsContent = `Emergency! I'm at ${location}`;
+                            smsNumbers.split(',').forEach(number => {
+                                window.location.href = `sms:${number.trim()}?body=${encodeURIComponent(smsContent)}`;
+                            });
+                        } else {
+                            alert('SMS numbers not set.');
+                        }
+                    },
+                    () => {
+                        alert('Unable to retrieve your location.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSettings);
+    </script>
+</body>
+</html>

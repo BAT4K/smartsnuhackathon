@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Location</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-container {
+            width: 90%;
+            max-width: 400px; /* Reduced max-width for smaller screens */
+            height: 80%;
+            max-height: 400px; /* Reduced max-height for smaller screens */
+            position: relative;
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better readability */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-header {
+            padding: 10px;
+            font-size: 18px; /* Reduced font size */
+            font-weight: bold;
+            color: #0078D4;
+            background: rgba(255, 255, 255, 0.9);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            text-align: center;
+            position: relative; /* Position relative to allow for absolute positioning of buttons */
+        }
+
+        #map {
+            height: calc(100% - 90px); /* Adjusted height to make space for buttons */
+            width: 100%;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .back-button-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        .back-button img {
+            width: 25px; /* Reduced size */
+            height: auto;
+        }
+
+        .action-button {
+            display: block; /* Display as block to ensure full width */
+            width: calc(100% - 20px); /* Adjusted width */
+            margin: 10px auto; /* Centered with margin */
+            padding: 8px 15px; /* Adjusted padding */
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px; /* Adjusted font size */
+        }
+
+        .action-button:hover {
+            background-color: #005A9E;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <div class="map-header">
+            Live Location
+            <div class="back-button-container">
+                <button class="back-button" onclick="window.history.back()">
+                    <img src="back-button.png" alt="Back">
+                </button>
+            </div>
+        </div>
+        <div id="map"></div>
+        <button class="action-button" onclick="showNearbyPoliceStations()">Nearby Police Stations</button>
+        <button class="action-button" onclick="showNearbyHospitals()">Hospitals Near Me</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let map;
+        let userLocation;
+
+        function initMap() {
+            map = L.map('map').setView([0, 0], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        userLocation = [lat, lng];
+
+                        map.setView(userLocation, 15);
+                        L.marker(userLocation).addTo(map)
+                            .bindPopup('You are here')
+                            .openPopup();
+                    },
+                    () => {
+                        handleLocationError(true);
+                    }
+                );
+            } else {
+                handleLocationError(false);
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation) {
+            alert(browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn’t support geolocation."
+            );
+        }
+
+        function showNearbyPoliceStations() {
+            if (!userLocation) {
+                alert('Unable to determine your location.');
+                return;
+            }
+
+            const lat = userLocation[0];
+            const lng = userLocation[1];
+            const googleMapsUrl = `https://www.google.com/maps/search/police+station/@${lat},${lng},15z`;
+
+            window.open(googleMapsUrl, '_blank');
+        }
+
+        function showNearbyHospitals() {
+            if (!userLocation) {
+                alert('Unable to determine your location.');
+                return;
+            }
+
+            const lat = userLocation[0];
+            const lng = userLocation[1];
+            const googleMapsUrl = `https://www.google.com/maps/search/hospitals/@${lat},${lng},15z`;
+
+            window.open(googleMapsUrl, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+</html>

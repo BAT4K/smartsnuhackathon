@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Path Finding</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif; /* Using Poppins font for consistency */
+            background-image: url('background.jpg'); /* Set background image */
+            background-size: cover; /* Ensure the background image covers the entire page */
+            background-position: center; /* Center the background image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background 0.3s ease;
+        }
+
+        .map-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 350px; /* Adjusted to fit better on mobile */
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .map-container.active {
+            opacity: 1;
+        }
+
+        h2 {
+            font-size: 20px; /* Reduced font size to fit on smaller screens */
+            margin-bottom: 15px;
+            color: #0078D4;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            max-width: 300px; /* Make inputs fit smaller screens */
+            margin: 8px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 14px; /* Reduced font size for mobile */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 120, 212, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            box-shadow: 0px 6px 12px rgba(0, 120, 212, 0.3);
+        }
+
+        /* Different button colors to match other styles */
+        .find-path-btn {
+            background-color: #0078D4;
+        }
+
+        .find-path-btn:hover {
+            background-color: #005A9E;
+        }
+
+        .open-google-maps-btn {
+            background-color: #FF5722;
+        }
+
+        .open-google-maps-btn:hover {
+            background-color: #E64A19;
+        }
+
+        #map {
+            height: 250px; /* Reduced map height for mobile view */
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 120, 212, 0.2);
+        }
+
+        /* Back button styling */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 25px; /* Adjusted size for smaller screens */
+            height: 25px;
+            cursor: pointer;
+        }
+
+        /* Media queries to ensure layout works on very small screens */
+        @media screen and (max-width: 480px) {
+            .map-container {
+                max-width: 300px; /* Further reduce width for small screens */
+            }
+
+            h2 {
+                font-size: 18px; /* Further reduce font size */
+            }
+
+            input {
+                max-width: 260px; /* Smaller inputs */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container active" id="mapContainer">
+        <!-- Back Button -->
+        <a href="women_safety.html">
+            <img src="back-button.png" alt="Back" class="back-button">
+        </a>
+
+        <!-- Title -->
+        <h2>Google Maps Path Finding</h2>
+
+        <!-- Inputs for start and end locations -->
+        <div class="controls">
+            <input id="start" type="text" placeholder="Enter starting location" />
+            <input id="end" type="text" placeholder="Enter destination" />
+            <button class="find-path-btn" onclick="calculateRoute()">Find Path</button>
+            <button class="open-google-maps-btn" onclick="openInGoogleMaps()">Open in Google Maps</button>
+        </div>
+
+        <!-- The map container -->
+        <div id="map"></div>
+    </div>
+
+    <!-- Google Maps JavaScript API script with your API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly" async></script>
+    <script>
+        let map, directionsService, directionsRenderer;
+
+        // Initialize the map
+        function initMap() {
+            // Create the map centered on a default location
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.7749, lng: -122.4194 }, // Default to San Francisco
+                zoom: 13
+            });
+
+            // Set up directions service and renderer
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        // Function to calculate the route
+        function calculateRoute() {
+            const start = document.getElementById("start").value;
+            const end = document.getElementById("end").value;
+
+            if (!start || !end) {
+                alert("Please enter both a start and end location.");
+                return;
+            }
+
+            // Define the route request
+            const request = {
+                origin: start,
+                destination: end,
+                travelMode: google.maps.TravelMode.DRIVING // Options: DRIVING, WALKING, BICYCLING, TRANSIT
+            };
+
+            // Calculate the route
+            directionsService.route(request, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(result);
+                } else {
+                    alert("Could not display directions due to: " + status);
+                }
+            });
+        }
+
+        // Function to open Google Maps with the directions
+        function openInGoogleMaps() {
+            const start = document.getElementById("start").value;
+            const end = document.getElementById("end").value;
+
+            if (!start || !end) {
+                alert("Please enter both a start and end location.");
+                return;
+            }
+
+            // Construct the Google Maps directions URL
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(start)}&destination=${encodeURIComponent(end)}&travelmode=driving`;
+
+            // Open the URL in a new tab
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
