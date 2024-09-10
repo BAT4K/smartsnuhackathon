@@ -33,7 +33,7 @@ The home page serves as the central hub for safety features, offering:
 
 1. Clone the repository:
 
-    bash
+    ```bash
     git clone https://github.com/BAT4K/smartsnuhackathon.git
     cd smartsnuhackathon/janani
     
